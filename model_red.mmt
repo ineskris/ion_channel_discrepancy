@@ -1,0 +1,72 @@
+[[model]]
+name: model-green
+author: Ines Krissaane
+desc: Check associated model definition document
+# Initial values
+ikr.C2 = 1
+ikr.C1 = 0
+ikr.O = 0
+
+#
+# Simulation engine variables
+#
+[engine]
+time = 0 bind time
+pace = 0 bind pace
+
+#
+# Membrane potential
+#
+[membrane]
+V = engine.pace
+    desc: membrane potential
+    in [mV]
+
+[nernst]
+EK = -85 [mV]
+
+#
+#
+[ikr]
+use membrane.V
+IKr = p15 * O * (V - nernst.EK)
+I = 1 - (O + C1 + C2 )
+
+
+k1 = p1 * exp(p2 * V)
+k2 = p3 * exp(-p4 * V)
+k3 = p5 * exp(p6 * V)
+k4 = p7 * exp(-p8 * V)
+k5 = p9 * exp(p10 * V)
+k7 = p11 * exp(-p12 * V)
+k8 = p13 * exp(p14 * V) 
+k6 = (k5*k2*k4)/(k1*k3)
+
+
+
+
+dot(C2) = +k8*C1 -  k7*C2
+dot(C1) = +k2*O  + k6*I - C1*(k1+ k5 + k8) + k7*C2
+dot(O)  = +k4*I  + k1*C1 - O*(k2 + k3)
+
+
+
+
+p1 = 5.15e-3 [1/ms]
+p2 = 0.03158 [1/mV]
+p3 = 2.26e-4 [1/ms]
+p4 = 0.06990 [1/mV]
+p5 = 3.45e-5 [1/ms]
+p6 = 0.05462 [1/mV]
+p7 = 0.08730 [1/ms]
+p8 = 8.91e-3 [1/mV]
+p9 = 5.15e-3 [1/ms]
+p10 = 0.03158 [1/mV]
+p11 = 0.08730 [1/ms]
+p12 = 8.91e-3 [1/mV]
+p13 = 5.15e-3 [1/ms]
+p14 = 0.03158 [1/mV]
+p15 = 0.15240 [mS/uF]
+
+
+n_params = 15
