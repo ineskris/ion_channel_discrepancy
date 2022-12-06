@@ -10,16 +10,16 @@ ikr.O = 0
 # Simulation engine variables
 #
 [engine]
-time = 0 bind time
-pace = 0 bind pace
+time = 0 [ms]
+    bind time
 
 #
 # Membrane potential
 #
 [membrane]
-V = engine.pace
-    desc: membrane potential
-    in [mV]
+V = 0 [mV]
+    bind pace
+    label membrane_potential
 
 [nernst]
 EK = -85 [mV]
